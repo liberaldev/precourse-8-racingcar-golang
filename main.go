@@ -31,6 +31,19 @@ func main() {
 		carNames = append(carNames, args[i])
 	}
 
+	// times가 설정되지 않았으면 입력받기
+	if times == -1 {
+		fmt.Print("시도 횟수를 입력하세요: ")
+		_, err := fmt.Scan(&times)
+		if err != nil {
+			fmt.Println("숫자를 입력하세요")
+			os.Exit(1)
+		} else if times < 1 {
+			fmt.Println("1보다 큰 정수를 입력하세요")
+			os.Exit(1)
+		}
+	}
+
 	fmt.Printf("자동차 이름: %v\n", carNames)
 	fmt.Printf("시도 횟수: %d\n", times)
 }
