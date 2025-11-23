@@ -17,8 +17,8 @@ type Cars struct {
 	cars []Car
 }
 
-func validateCarName(name []string) error {
-	if len(strings.TrimSpace(name[0])) == 0 {
+func validateCarName(name string) error {
+	if len(strings.TrimSpace(name)) == 0 {
 		return errors.New("이름이 비어있습니다")
 	}
 	if len(name) >= 5 {
@@ -29,7 +29,7 @@ func validateCarName(name []string) error {
 
 func (c *Cars) Init(names []string) error {
 	for i := 0; i < len(names); i++ {
-		if err := validateCarName([]string{names[i]}); err != nil {
+		if err := validateCarName(names[i]); err != nil {
 			return err
 		}
 		c.cars = append(c.cars, Car{name: names[i], steps: 0})
