@@ -43,7 +43,4 @@ func main() {
 			os.Exit(1)
 		}
 	}
-
-	fmt.Printf("자동차 이름: %v\n", carNames)
-	fmt.Printf("시도 횟수: %d\n", times)
 }
