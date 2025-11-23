@@ -10,8 +10,8 @@ import (
 )
 
 type Car struct {
-	name  string
-	steps int
+	Name  string
+	Steps int
 }
 
 type Cars struct {
@@ -33,7 +33,7 @@ func (c *Cars) Init(names []string) error {
 		if err := validateCarName(names[i]); err != nil {
 			return err
 		}
-		c.cars = append(c.cars, Car{name: names[i], steps: 0})
+		c.cars = append(c.cars, Car{Name: names[i], Steps: 0})
 	}
 	return nil
 }
@@ -42,7 +42,7 @@ func (c *Cars) MoveCarsByRandomNumber() {
 	for i := range c.cars {
 		if n, err := rand.Int(rand.Reader, big.NewInt(9)); err == nil && n.Int64() >= 4 {
 			car := &c.cars[i]
-			car.steps += 1
+			car.Steps += 1
 		}
 	}
 }
@@ -50,10 +50,10 @@ func (c *Cars) MoveCarsByRandomNumber() {
 func (c *Cars) CarsStepPrint() {
 	for i := range c.cars {
 		car := &c.cars[i]
-		fmt.Println(car.name+":", strings.Repeat("-", car.steps))
+		fmt.Println(car.Name+":", strings.Repeat("-", car.Steps))
 	}
 }
 
 func (c *Cars) Sort() {
-	sort.Slice(c.cars, func(i, j int) bool { return c.cars[i].steps > c.cars[j].steps })
+	sort.Slice(c.cars, func(i, j int) bool { return c.cars[i].Steps > c.cars[j].Steps })
 }
