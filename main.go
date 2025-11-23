@@ -1,64 +1,59 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"precourse-8-racingcar-golang/cars"
-	"strconv"
+
+	"github.com/spf13/cobra"
 )
 
-func main() {
-	args := os.Args[1:] // 첫 번째 인자(프로그램 이름) 제외
+var times int
 
-	if len(args) < 1 {
-		fmt.Println("아무런 인자도 입력하지 않았습니다. 인자를 입력하세요")
-		os.Exit(1)
-	}
+var rootCmd = &cobra.Command{
+	Use:   "racing [car1] [car2] [car3]...",
+	Short: "자동차 경주",
+	Long:  "여러 자동차의 이름을 입력받아 경주를 진행합니다.",
+	Args:  cobra.MinimumNArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		carNames := args
 
-	var carNames []string
-	times := -1
-
-	// --times 플래그 찾기
-	for i := 0; i < len(args); i++ {
-		if args[i] == "--times" {
-			if i+1 < len(args) {
-				if t, err := strconv.Atoi(args[i+1]); err == nil && t > 0 {
-					times = t
-				} else if err != nil {
-					fmt.Println("올바른 값을 입력하지 않았습니다")
-					os.Exit(1)
-				} else if t < 0 {
-					fmt.Println("1보다 큰 정수를 입력하세요")
-					os.Exit(1)
-				}
+		// times가 설정되지 않았으면 입력받기
+		if times == 0 {
+			fmt.Print("시도 횟수를 입력하세요: ")
+			_, err := fmt.Scan(&times)
+			if err != nil {
+				return errors.New("숫자를 입력하세요")
 			}
-			break
 		}
-		carNames = append(carNames, args[i])
-	}
 
-	// times가 설정되지 않았으면 입력받기
-	if times == -1 {
-		fmt.Print("시도 횟수를 입력하세요: ")
-		_, err := fmt.Scan(&times)
-		if err != nil {
-			fmt.Println("숫자를 입력하세요")
-			os.Exit(1)
-		} else if times < 1 {
-			fmt.Println("1보다 큰 정수를 입력하세요")
-			os.Exit(1)
+		if times < 1 {
+			return errors.New("1보다 큰 정수를 입력하세요")
 		}
-	}
 
-	c := cars.Cars{}
-	if err := c.Init(carNames); err != nil {
+		c := cars.Cars{}
+		if err := c.Init(carNames); err != nil {
+			return err
+		}
+
+		for i := 0; i < times; i++ {
+			fmt.Println()
+			c.MoveCarsByRandomNumber()
+			c.CarsStepPrint()
+		}
+
+		return nil
+	},
+}
+
+func init() {
+	rootCmd.Flags().IntVarP(&times, "times", "t", 0, "시도 횟수")
+}
+
+func main() {
+	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
-	}
-
-	for i := 0; i < times; i++ {
-		fmt.Println()
-		c.MoveCarsByRandomNumber()
-		c.CarsStepPrint()
 	}
 }
