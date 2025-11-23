@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"precourse-8-racingcar-golang/cars"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -31,6 +32,9 @@ func racing(carNames []string) error {
 		c.MoveCarsByRandomNumber()
 		c.CarsStepPrint()
 	}
+
+	fmt.Println()
+	fmt.Println("최종 우승자:", strings.Join(c.GetWinners(), ", "))
 	return nil
 }
 
