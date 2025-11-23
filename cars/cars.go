@@ -57,3 +57,25 @@ func (c *Cars) CarsStepPrint() {
 func (c *Cars) Sort() {
 	sort.Slice(c.cars, func(i, j int) bool { return c.cars[i].Steps > c.cars[j].Steps })
 }
+
+func (c *Cars) GetCars() []Car {
+	return c.cars
+}
+
+func (c *Cars) GetWinners() []string {
+	carsData := c.GetCars()
+	maxSteps := 0
+	for _, car := range carsData {
+		if car.Steps > maxSteps {
+			maxSteps = car.Steps
+		}
+	}
+
+	var winners []string
+	for _, car := range carsData {
+		if car.Steps == maxSteps {
+			winners = append(winners, car.Name)
+		}
+	}
+	return winners
+}
