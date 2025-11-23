@@ -49,6 +49,13 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.Flags().IntVarP(&times, "times", "t", 0, "시도 횟수")
+
+	// 한글 도움말 템플릿 설정
+	rootCmd.SetUsageTemplate(`사용법:
+  {{.UseLine}}
+
+플래그:
+{{.LocalFlags.FlagUsages}}`)
 }
 
 func main() {
