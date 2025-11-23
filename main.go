@@ -51,7 +51,10 @@ func main() {
 	}
 
 	c := cars.Cars{}
-	c.Init(carNames)
+	if err := c.Init(carNames); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
 	for i := 0; i < times; i++ {
 		fmt.Println()

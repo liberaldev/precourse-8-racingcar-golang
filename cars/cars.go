@@ -2,6 +2,7 @@ package cars
 
 import (
 	"crypto/rand"
+	"errors"
 	"fmt"
 	"math/big"
 	"strings"
@@ -16,10 +17,24 @@ type Cars struct {
 	cars []Car
 }
 
-func (c *Cars) Init(names []string) {
+func validateCarName(name []string) error {
+	if len(strings.TrimSpace(name[0])) == 0 {
+		return errors.New("이름이 비어있습니다")
+	}
+	if len(name) >= 5 {
+		return errors.New("5자 이하로 이름을 입력하세요")
+	}
+	return nil
+}
+
+func (c *Cars) Init(names []string) error {
 	for i := 0; i < len(names); i++ {
+		if err := validateCarName([]string{names[i]}); err != nil {
+			return err
+		}
 		c.cars = append(c.cars, Car{name: names[i], steps: 0})
 	}
+	return nil
 }
 
 func (c *Cars) MoveCarsByRandomNumber() {
