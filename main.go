@@ -11,6 +11,29 @@ import (
 
 var times int
 
+func scanTimes() error {
+	fmt.Print("시도 횟수를 입력하세요: ")
+	_, err := fmt.Scan(&times)
+	if err != nil {
+		return errors.New("숫자를 입력하세요")
+	}
+	return nil
+}
+
+func racing(carNames []string) error {
+	c := cars.Cars{}
+	if err := c.Init(carNames); err != nil {
+		return err
+	}
+
+	for i := 0; i < times; i++ {
+		fmt.Println()
+		c.MoveCarsByRandomNumber()
+		c.CarsStepPrint()
+	}
+	return nil
+}
+
 var rootCmd = &cobra.Command{
 	Use:   "racing [car1] [car2] [car3]...",
 	Short: "자동차 경주",
@@ -18,31 +41,18 @@ var rootCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		carNames := args
-
 		// times가 설정되지 않았으면 입력받기
 		if times == 0 {
-			fmt.Print("시도 횟수를 입력하세요: ")
-			_, err := fmt.Scan(&times)
-			if err != nil {
-				return errors.New("숫자를 입력하세요")
+			if err := scanTimes(); err != nil {
+				return err
 			}
 		}
-
 		if times < 1 {
 			return errors.New("1보다 큰 정수를 입력하세요")
 		}
-
-		c := cars.Cars{}
-		if err := c.Init(carNames); err != nil {
+		if err := racing(carNames); err != nil {
 			return err
 		}
-
-		for i := 0; i < times; i++ {
-			fmt.Println()
-			c.MoveCarsByRandomNumber()
-			c.CarsStepPrint()
-		}
-
 		return nil
 	},
 }
