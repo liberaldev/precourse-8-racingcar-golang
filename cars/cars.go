@@ -32,7 +32,8 @@ func (c *Cars) MoveCarsByRandomNumber() {
 }
 
 func (c *Cars) CarsStepPrint() {
-	for _, car := range c.cars {
-		fmt.Println(car.name, ": ", strings.Repeat("-", car.steps))
+	for i := range c.cars {
+		car := &c.cars[i]
+		fmt.Println(car.name+":", strings.Repeat("-", car.steps))
 	}
 }
