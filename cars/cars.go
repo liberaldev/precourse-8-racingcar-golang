@@ -2,7 +2,9 @@ package cars
 
 import (
 	"crypto/rand"
+	"fmt"
 	"math/big"
+	"strings"
 )
 
 type Car struct {
@@ -25,5 +27,11 @@ func (c *Cars) MoveCarsByRandomNumber() {
 		if n, err := rand.Int(rand.Reader, big.NewInt(9)); err == nil && n.Int64() >= 4 {
 			car.steps += 1
 		}
+	}
+}
+
+func (c *Cars) CarsStepPrint() {
+	for _, car := range c.cars {
+		fmt.Println(car.name, ": ", strings.Repeat("-", car.steps))
 	}
 }
