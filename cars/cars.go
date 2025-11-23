@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"sort"
 	"strings"
 )
 
@@ -51,4 +52,8 @@ func (c *Cars) CarsStepPrint() {
 		car := &c.cars[i]
 		fmt.Println(car.name+":", strings.Repeat("-", car.steps))
 	}
+}
+
+func (c *Cars) Sort() {
+	sort.Slice(c.cars, func(i, j int) bool { return c.cars[i].steps > c.cars[j].steps })
 }
