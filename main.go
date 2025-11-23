@@ -60,6 +60,9 @@ var rootCmd = &cobra.Command{
 func init() {
 	rootCmd.Flags().IntVarP(&times, "times", "t", 0, "시도 횟수")
 
+	// help 플래그 설명 한글화
+	rootCmd.Flags().BoolP("help", "h", false, "도움말 표시")
+
 	// 한글 도움말 템플릿 설정
 	rootCmd.SetUsageTemplate(`사용법:
   {{.UseLine}}
