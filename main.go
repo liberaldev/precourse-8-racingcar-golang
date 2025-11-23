@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"precourse-8-racingcar-golang/cars"
 	"strconv"
 )
 
@@ -47,5 +48,14 @@ func main() {
 			fmt.Println("1보다 큰 정수를 입력하세요")
 			os.Exit(1)
 		}
+	}
+
+	c := cars.Cars{}
+	c.Init(carNames)
+
+	for i := 0; i < times; i++ {
+		fmt.Println()
+		c.MoveCarsByRandomNumber()
+		c.CarsStepPrint()
 	}
 }
