@@ -9,6 +9,11 @@ import (
 func main() {
 	args := os.Args[1:] // 첫 번째 인자(프로그램 이름) 제외
 
+	if len(args) < 1 {
+		fmt.Println("아무런 인자도 입력하지 않았습니다. 인자를 입력하세요")
+		os.Exit(1)
+	}
+
 	var carNames []string
 	times := -1
 
