@@ -23,8 +23,9 @@ func (c *Cars) Init(names []string) {
 }
 
 func (c *Cars) MoveCarsByRandomNumber() {
-	for _, car := range c.cars {
+	for i := range c.cars {
 		if n, err := rand.Int(rand.Reader, big.NewInt(9)); err == nil && n.Int64() >= 4 {
+			car := &c.cars[i]
 			car.steps += 1
 		}
 	}
