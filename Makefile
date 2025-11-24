@@ -1,4 +1,4 @@
-.PHONY: build clean test run help
+.PHONY: build build-all clean test run help
 
 BUILD_DIR=build
 BINARY_PATH=$(BUILD_DIR)/$(BINARY_NAME)
@@ -13,6 +13,18 @@ build:
 	@mkdir -p $(BUILD_DIR)
 	go build -o $(BINARY_PATH) .
 	@echo "Build complete: $(BINARY_PATH)"
+
+# Build for all platforms (for GitHub releases)
+build-all:
+	@echo "Building for all platforms..."
+	@mkdir -p $(BUILD_DIR)
+	GOOS=linux GOARCH=amd64 go build -o $(BUILD_DIR)/racingcar_linux_amd64 .
+	GOOS=darwin GOARCH=amd64 go build -o $(BUILD_DIR)/racingcar_mac_intel .
+	GOOS=darwin GOARCH=arm64 go build -o $(BUILD_DIR)/racingcar_mac_apple .
+	GOOS=windows GOARCH=amd64 go build -o $(BUILD_DIR)/racingcar_windows_x64.exe .
+	GOOS=windows GOARCH=386 go build -o $(BUILD_DIR)/racingcar_windows_x86.exe .
+	@echo "Build complete for all platforms:"
+	@ls -lh $(BUILD_DIR)/
 
 # Run tests
 test:
@@ -34,6 +46,7 @@ clean:
 help:
 	@echo "Available targets:"
 	@echo "  make build  - Build the project (default)"
+	@echo "  make build-all  - Build for all platforms (Linux, macOS, Windows)"
 	@echo "  make test   - Run tests"
 	@echo "  make run    - Build and run"
 	@echo "  make clean  - Remove build artifacts"
