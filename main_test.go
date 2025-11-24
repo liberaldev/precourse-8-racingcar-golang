@@ -96,21 +96,30 @@ func TestRootCommandWithStdin(t *testing.T) {
 		defer func(w *os.File) {
 			err := w.Close()
 			if err != nil {
-				t.Errorf(err.Error())
+				t.Error(err.Error())
 			}
 		}(w)
 		_, _ = io.WriteString(w, "3\n")
 	}()
 
+	// 표준 출력 캡처
+	oldStdout := os.Stdout
+	defer func() { os.Stdout = oldStdout }()
+
+	outR, outW, _ := os.Pipe()
+	os.Stdout = outW
+
 	// 전역 변수 초기화
 	times = 0
 
-	buf := new(bytes.Buffer)
-	rootCmd.SetOut(buf)
-	rootCmd.SetErr(buf)
 	rootCmd.SetArgs([]string{"car1", "car2"})
 
 	err := rootCmd.Execute()
+
+	// 출력 파이프 닫기
+	if closeErr := outW.Close(); closeErr != nil {
+		t.Error(closeErr.Error())
+	}
 
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
@@ -120,9 +129,15 @@ func TestRootCommandWithStdin(t *testing.T) {
 		t.Errorf("times = %v, want 3", times)
 	}
 
+	// 출력 읽기
+	var buf bytes.Buffer
+	if _, copyErr := io.Copy(&buf, outR); copyErr != nil {
+		t.Error(copyErr.Error())
+	}
 	output := buf.String()
+
 	if !strings.Contains(output, "최종 우승자") {
-		t.Error("우승자 출력이 없습니다")
+		t.Errorf("우승자 출력이 없습니다. 실제 출력: %s", output)
 	}
 }
 
@@ -163,8 +178,8 @@ func TestRacing(t *testing.T) {
 			times = tt.timesVal
 			err := racing(tt.carNames)
 
-			if err = w.Close(); err != nil {
-				t.Error(err.Error())
+			if closeErr := w.Close(); closeErr != nil {
+				t.Error(closeErr.Error())
 			}
 
 			os.Stdout = oldStdout
@@ -177,12 +192,12 @@ func TestRacing(t *testing.T) {
 			}
 
 			var buf bytes.Buffer
-			if _, err := io.Copy(os.Stdout, r); err != nil {
-				t.Error(err.Error())
+			if _, copyErr := io.Copy(&buf, r); copyErr != nil {
+				t.Error(copyErr.Error())
 			}
 			output := buf.String()
 
-			if !strings.Contains(output, "최종 우승자") {
+			if !tt.wantErr && !strings.Contains(output, "최종 우승자") {
 				t.Error("우승자 출력이 없습니다")
 			}
 		})
