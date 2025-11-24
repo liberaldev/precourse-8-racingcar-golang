@@ -29,7 +29,9 @@ func racing(carNames []string) error {
 
 	for i := 0; i < times; i++ {
 		fmt.Println()
-		c.MoveCarsByRandomNumber()
+		if err := c.MoveCarsByRandomNumber(); err != nil {
+			return err
+		}
 		c.CarsStepPrint()
 	}
 

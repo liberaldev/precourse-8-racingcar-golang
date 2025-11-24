@@ -7,9 +7,7 @@ import (
 
 type DefaultRandomGenerator struct{}
 
-func (d *DefaultRandomGenerator) GetRandomNumber() int64 {
-	if n, err := rand.Int(rand.Reader, big.NewInt(10)); err == nil {
-		return n.Int64()
-	}
-	return 0
+func (d *DefaultRandomGenerator) GetRandomNumber(maxNum *big.Int) (int64, error) {
+	n, err := rand.Int(rand.Reader, maxNum)
+	return n.Int64(), err
 }

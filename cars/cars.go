@@ -3,6 +3,7 @@ package cars
 import (
 	"errors"
 	"fmt"
+	"math/big"
 	"precourse-8-racingcar-golang/random_number"
 	"sort"
 	"strings"
@@ -41,13 +42,18 @@ func (c *Cars) Init(names []string) error {
 	return nil
 }
 
-func (c *Cars) MoveCarsByRandomNumber() {
+func (c *Cars) MoveCarsByRandomNumber() error {
 	for i := range c.cars {
-		if c.randomGenerator.GetRandomNumber() >= 4 {
+		n, err := c.randomGenerator.GetRandomNumber(big.NewInt(10))
+		if err != nil {
+			return err
+		}
+		if n >= 4 {
 			car := &c.cars[i]
-			car.Steps += 1
+			car.Steps++
 		}
 	}
+	return nil
 }
 
 func (c *Cars) CarsStepPrint() {

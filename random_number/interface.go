@@ -1,5 +1,7 @@
 package random_number
 
+import "math/big"
+
 type RandomNumberGenerator interface {
-	GetRandomNumber() int64
+	GetRandomNumber(maxNum *big.Int) (int64, error)
 }
