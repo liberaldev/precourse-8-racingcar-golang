@@ -3,6 +3,8 @@
 
 프리코스 과제 중 가장 인상깊었던 자동차 경주 과제를 Go 언어로 재현해보는 미션이다. racingcar 등의 명령어를 통해 실행되는 CLI 애플리케이션을 목표로 한다. 컴파일된 바이너리는 [릴리즈 페이지](https://github.com/liberaldev/precourse-8-racingcar-golang/releases)에서 다운로드 받을 수 있다.
 
+GoLand 등 젯브레인즈 IDE에서 일관된 환경을 제공하기 위해 일부 IDE 설정 파일을 Github에 업로드하였다. 젯브레인즈 신버전 IDE는 `.idea` 폴더 안에 git에서 제외하는 파일들을 담은 `.gitignore` 파일을 생성해주는데 이를 이용하였다.
+
 ## 설치 방법
  1. [릴리즈 페이지](https://github.com/liberaldev/precourse-8-racingcar-golang/releases)에서 자신한테 맞는 환경의 바이너리를 받는다. 유닉스나 유닉스 라이크 환경은 `racingcar`로, 윈도우 환경은 `racingcar.exe` 바이너리 파일명을 변경하는 것을 강력히 권장한다.
  2. 기본적으로 `PATH` 환경변수가 설정되어 있는 폴더(예시로 맥과 일부 리눅스 배포판은 `~/.local/bin`이 `PATH`에 설정되어 있다)로 바이너리를 이동하거나, 혹은 바이너리가 위차한 폴더를 환경변수 `PATH`에 추가한다. 이 경우에는 각자의 환경에 맞게 `PATH` 환경변수를 갱신해야 한다.
