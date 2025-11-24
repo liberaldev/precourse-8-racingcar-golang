@@ -1,4 +1,6 @@
 # Go로 만드는 자동차 경주
+<img src="screenshots/race_output_sample.png" style="display: block; margin: 0 auto" alt="실행 결과">
+
 프리코스 과제 중 가장 인상깊었던 자동차 경주 과제를 Go 언어로 재현해보는 미션이다. racingcar 등의 명령어를 통해 실행되는 CLI 애플리케이션을 목표로 한다. 컴파일된 바이너리는 [릴리즈 페이지](https://github.com/liberaldev/precourse-8-racingcar-golang/releases)에서 다운로드 받을 수 있다.
 
 ## 설치 방법
