@@ -1,10 +1,9 @@
 package cars
 
 import (
-	"crypto/rand"
 	"errors"
 	"fmt"
-	"math/big"
+	"precourse-8-racingcar-golang/random_number"
 	"sort"
 	"strings"
 )
@@ -15,7 +14,8 @@ type Car struct {
 }
 
 type Cars struct {
-	cars []Car
+	cars            []Car
+	randomGenerator random_number.RandomNumberGenerator
 }
 
 func validateCarName(name string) error {
@@ -35,12 +35,15 @@ func (c *Cars) Init(names []string) error {
 		}
 		c.cars = append(c.cars, Car{Name: names[i], Steps: 0})
 	}
+	if c.randomGenerator == nil {
+		c.randomGenerator = &random_number.DefaultRandomGenerator{}
+	}
 	return nil
 }
 
 func (c *Cars) MoveCarsByRandomNumber() {
 	for i := range c.cars {
-		if n, err := rand.Int(rand.Reader, big.NewInt(9)); err == nil && n.Int64() >= 4 {
+		if c.randomGenerator.GetRandomNumber() >= 4 {
 			car := &c.cars[i]
 			car.Steps += 1
 		}
