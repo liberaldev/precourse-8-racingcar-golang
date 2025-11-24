@@ -19,6 +19,7 @@ func scanTimes() error {
 	if err != nil {
 		return errors.New("숫자를 입력하세요")
 	}
+	fmt.Println()
 	return nil
 }
 
@@ -63,7 +64,6 @@ var rootCmd = &cobra.Command{
 		if times < 1 {
 			return errors.New("1보다 큰 정수를 입력하세요")
 		}
-		fmt.Println()
 		if err := racing(carNames); err != nil {
 			return err
 		}
