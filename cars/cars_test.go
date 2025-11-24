@@ -14,7 +14,7 @@ func TestMoveCarsByRandomNumber(t *testing.T) {
 	}
 
 	// Mock 랜덤 값 설정 (4, 3, 3, 4)
-	mockRandom := random_number.InitMockRandomGenerator([]int{4, 3, 3, 4})
+	mockRandom := random_number.InitMockRandomGenerator([]int64{4, 3, 3, 4})
 	cars.randomGenerator = mockRandom
 
 	// When
@@ -46,7 +46,7 @@ func TestMoveCarsByRandomNumberAllMove(t *testing.T) {
 	}
 
 	// Mock 랜덤 값 설정 (모두 4 이상)
-	mockRandom := random_number.InitMockRandomGenerator([]int{4, 5})
+	mockRandom := random_number.InitMockRandomGenerator([]int64{4, 5})
 	cars.randomGenerator = mockRandom
 
 	// When
@@ -68,7 +68,7 @@ func TestMoveCarsByRandomNumberNoneMove(t *testing.T) {
 	}
 
 	// Mock 랜덤 값 설정 (모두 4 미만)
-	mockRandom := random_number.InitMockRandomGenerator([]int{0, 3})
+	mockRandom := random_number.InitMockRandomGenerator([]int64{0, 3})
 	cars.randomGenerator = mockRandom
 
 	// When

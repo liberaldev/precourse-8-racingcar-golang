@@ -6,19 +6,19 @@ import (
 )
 
 type MockRandomGenerator struct {
-	numbers []int
+	numbers []int64
 	index   int
 }
 
-func InitMockRandomGenerator(numbers []int) *MockRandomGenerator {
+func InitMockRandomGenerator(numbers []int64) *MockRandomGenerator {
 	return &MockRandomGenerator{numbers: numbers, index: 0}
 }
 
 func (m *MockRandomGenerator) GetRandomNumber(maxNum *big.Int) (int64, error) {
 	num := m.numbers[m.index]
-	if int64(num) > maxNum.Int64() {
+	if num > maxNum.Int64() {
 		return -1, errors.New("maxNum 인자보다 큰 수를 입력하셨습니다")
 	}
 	m.index++
-	return int64(num), nil
+	return num, nil
 }
