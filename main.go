@@ -28,14 +28,13 @@ func racing(carNames []string) error {
 	}
 
 	for i := 0; i < times; i++ {
-		fmt.Println()
 		if err := c.MoveCarsByRandomNumber(); err != nil {
 			return err
 		}
 		c.CarsStepPrint()
+		fmt.Println()
 	}
 
-	fmt.Println()
 	fmt.Println("최종 우승자:", strings.Join(c.GetWinners(), ", "))
 	return nil
 }
@@ -61,6 +60,7 @@ var rootCmd = &cobra.Command{
 		if times < 1 {
 			return errors.New("1보다 큰 정수를 입력하세요")
 		}
+		fmt.Println()
 		if err := racing(carNames); err != nil {
 			return err
 		}
