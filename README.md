@@ -13,7 +13,7 @@ GoLand 등 젯브레인즈 IDE에서 일관된 환경을 제공하기 위해 일
  4. 터미널 등 명령줄에 `racing --help` 등으로 명령어를 입력해서 프로그램이 실행이 되는지 확인한다.
 
 ## 사용 방법
-바이너리 파일명이 `racingcar`(윈도우 환경에서는 확장자 포함해서 `racingcar.exe`)일 때를 전제한 사용법니다.
+바이너리 파일명이 `racingcar`(윈도우 환경에서는 확장자 포함해서 `racingcar.exe`)일 때를 전제한 사용법이다.
 ```
 사용법:
   racingcar [car1] [car2] [car3]... [flags]
