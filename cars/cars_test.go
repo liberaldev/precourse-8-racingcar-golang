@@ -66,7 +66,9 @@ func TestInit(t *testing.T) {
 func TestGetWinners(t *testing.T) {
 	// Given
 	cars := &Cars{}
-	_ = cars.Init([]string{"pobi", "woni", "jun"})
+	if err := cars.Init([]string{"pobi", "woni", "jun"}); err != nil {
+		t.Fatal(err)
+	}
 
 	// 직접 Steps 값을 설정
 	cars.cars[0].Steps = 5
@@ -93,7 +95,9 @@ func TestGetCars(t *testing.T) {
 	// Given
 	cars := &Cars{}
 	names := []string{"pobi", "woni"}
-	_ = cars.Init(names)
+	if err := cars.Init(names); err != nil {
+		t.Fatal(err)
+	}
 
 	// When
 	result := cars.GetCars()
