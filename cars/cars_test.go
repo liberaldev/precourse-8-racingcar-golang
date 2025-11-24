@@ -1,31 +1,85 @@
 package cars
 
 import (
+	"precourse-8-racingcar-golang/random_number"
 	"testing"
 )
 
 func TestMoveCarsByRandomNumber(t *testing.T) {
 	// Given
 	cars := &Cars{}
-	_ = cars.Init([]string{"pobi", "woni", "soso", "jisu"})
 
-	// When - 여러 번 실행하여 최소 한 번은 움직이는지 확인
-	for i := 0; i < 100; i++ {
-		cars.MoveCarsByRandomNumber()
+	if err := cars.Init([]string{"pobi", "woni", "soso", "jisu"}); err != nil {
+		t.Fatal(err)
 	}
 
-	// Then - 100번 실행했으므로 적어도 일부 차는 움직였을 것
-	allCars := cars.GetCars()
-	moved := false
-	for _, car := range allCars {
-		if car.Steps > 0 {
-			moved = true
-			break
+	// Mock 랜덤 값 설정 (4, 3, 3, 4)
+	mockRandom := random_number.InitMockRandomGenerator([]int{4, 3, 3, 4})
+	cars.randomGenerator = mockRandom
+
+	// When
+	if err := cars.MoveCarsByRandomNumber(); err != nil {
+		t.Fatal(err)
+	}
+
+	// Then
+	expected := []Car{
+		{Name: "pobi", Steps: 1},
+		{Name: "woni", Steps: 0},
+		{Name: "soso", Steps: 0},
+		{Name: "jisu", Steps: 1},
+	}
+
+	actual := cars.GetCars()
+	for i, car := range actual {
+		if car.Name != expected[i].Name || car.Steps != expected[i].Steps {
+			t.Errorf("Index %d: Expected %+v, got %+v", i, expected[i], car)
 		}
 	}
+}
 
-	if !moved {
-		t.Error("Expected at least one car to move after 100 iterations")
+func TestMoveCarsByRandomNumberAllMove(t *testing.T) {
+	// Given
+	cars := &Cars{}
+	if err := cars.Init([]string{"pobi", "woni"}); err != nil {
+		t.Fatal(err)
+	}
+
+	// Mock 랜덤 값 설정 (모두 4 이상)
+	mockRandom := random_number.InitMockRandomGenerator([]int{4, 5})
+	cars.randomGenerator = mockRandom
+
+	// When
+	if err := cars.MoveCarsByRandomNumber(); err != nil {
+		t.Fatal(err)
+	}
+	// Then
+	actual := cars.GetCars()
+	if actual[0].Steps != 1 || actual[1].Steps != 1 {
+		t.Errorf("Expected all cars to move, got %+v", actual)
+	}
+}
+
+func TestMoveCarsByRandomNumberNoneMove(t *testing.T) {
+	// Given
+	cars := &Cars{}
+	if err := cars.Init([]string{"pobi", "woni"}); err != nil {
+		t.Fatal(err)
+	}
+
+	// Mock 랜덤 값 설정 (모두 4 미만)
+	mockRandom := random_number.InitMockRandomGenerator([]int{0, 3})
+	cars.randomGenerator = mockRandom
+
+	// When
+	if err := cars.MoveCarsByRandomNumber(); err != nil {
+		t.Fatal(err)
+	}
+
+	// Then
+	actual := cars.GetCars()
+	if actual[0].Steps != 0 || actual[1].Steps != 0 {
+		t.Errorf("Expected no cars to move, got %+v", actual)
 	}
 }
 
