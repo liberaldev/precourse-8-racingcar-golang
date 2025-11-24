@@ -42,7 +42,12 @@ var rootCmd = &cobra.Command{
 	Use:   "racing [car1] [car2] [car3]...",
 	Short: "자동차 경주",
 	Long:  "여러 자동차의 이름을 입력받아 경주를 진행합니다.",
-	Args:  cobra.MinimumNArgs(1),
+	Args: func(cmd *cobra.Command, args []string) error {
+		if len(args) < 1 {
+			return errors.New("최소 1개 이상의 자동차 이름이 필요합니다")
+		}
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) error {
 		carNames := args
 		// times가 설정되지 않았으면 입력받기
