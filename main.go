@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"precourse-8-racingcar-golang/cars"
 	"strings"
 
@@ -39,8 +40,10 @@ func racing(carNames []string) error {
 	return nil
 }
 
+var executableName = filepath.Base(os.Args[0])
+
 var rootCmd = &cobra.Command{
-	Use:   "racing [car1] [car2] [car3]...",
+	Use:   executableName + " [car1] [car2] [car3]...",
 	Short: "자동차 경주",
 	Long:  "여러 자동차의 이름을 입력받아 경주를 진행합니다.",
 	Args: func(cmd *cobra.Command, args []string) error {
